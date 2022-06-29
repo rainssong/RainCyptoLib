@@ -265,17 +265,6 @@ export default class RainCypto
         })
     }
 
-
-    static async getBookTicker(exchange, symbol)
-    {
-        if (exchange.name == "Binance COIN-M")
-        {
-            return RainCypto.getJson("https://dapi.binance.com/dapi/v1/ticker/bookTicker?symbol=" + symbol);
-        }
-        else
-            return null;
-    }
-
     static error(title, error)
     {
         console.error(new Date().toLocaleString(), title, error);
