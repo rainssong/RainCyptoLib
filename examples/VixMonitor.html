@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt.browser.js"></script>
+	<script src="../js/vue@2.js"></script>
+	<script src="../js/require.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container" id="app">
+		<div v-if="monitors.vixMonitor">
+			<h3>
+				<input type="checkbox" id="isRunning" v-model="monitors.vixMonitor.isRunning">Vix
+			</h3>
+			<p>lastVix：{{monitors.vixMonitor.lastVix}}</p>
+		</div>
+	</div>
+</body>
+
+<script>
+
+	var baseModules = [
+		"../src/v1.3/RainCyptoUtil.js",
+		"../src/v1.3/Monitors/Monitor.js"]
+
+	var subModules = [
+		"../src/v1.3/Monitors/VixMonitor.js"];
+
+
+	function loadSubModules()
+	{
+		require(subModules, () => InitConsole());
+	}
+
+	require(baseModules)
+	setTimeout(require, 500, subModules, () => Init());
+
+	function Init()
+	{
+		monitors = {};
+		monitors.vixMonitor = new VixMonitor();
+		monitors.vixMonitor.isTestMode = true;
+		monitors.vixMonitor.isRunning = true;
+
+		app = new Vue({
+			el: '#app',
+			data: {
+				exchanges: { deribit: {} },
+				monitors: monitors
+			}
+		})
+
+		setTimeout(() => app.$forceUpdate(), 1000 * 5);
+		setInterval(() => app.$forceUpdate(), 1000 * 10);
+	}
+
+</script>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt/1.78.78/ccxt.browser.js"></script>
+	<script type="text/javascript" src="../js/TA.js"></script>
+	<script src="https://unpkg.com/vue@3.2"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container-fluid" id="app">
+		<div id="test">
+
+		</div>
+	</div>
+</body>
+
+<script type="module">
+
+	import TickMonitor from "../src/v1.6/Monitors/TickMonitor.mjs"
+	import KlineMonitor from "../src/v1.6/Monitors/KlineMonitor.mjs"
+	import OverChangeStrategy from "../src/v1.6/Strategys/OverChangeStrategy.mjs"
+	import Trader from "../src/v1.6/Strategys/Trader.mjs"
+	import RainCypto from "../src/v1.6/RainCyptoUtil.mjs"
+
+	app = window.app = Vue.createApp({
+	})
+
+	var exchange=new ccxt.binancecoinm()
+	var tick=new TickMonitor(exchange,"BTC/USD")
+	var kline=new KlineMonitor(exchange,"BTC/USD","1h")
+
+	window.strategy=new OverChangeStrategy(tick,kline,exchange,"BTC/USD");
+	window.RainCypto=RainCypto;
+
+	RainCypto.appendComponent(app, "#test", strategy);
+
+	app.mount('#app')
+</script>

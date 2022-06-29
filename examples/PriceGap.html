@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt/1.78.78/ccxt.browser.js"></script>
+	<script type="text/javascript" src="../js/TA.js"></script>
+	<script src="https://unpkg.com/vue@3.2"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container-fluid" id="app">
+		<div id="test">
+
+		</div>
+	</div>
+</body>
+
+<script type="module">
+
+	import TickMonitor from "../src/v1.6/Monitors/TickMonitor.mjs"
+	import PriceGapStrategy from "../src/v1.6/Strategys/PriceGapStrategy.mjs"
+	import Trader from "../src/v1.6/Strategys/Trader.mjs"
+	import RainCypto from "../src/v1.6/RainCyptoUtil.mjs"
+
+	app = window.app = Vue.createApp({
+	})
+
+
+	window.monitor1=new TickMonitor(new ccxt.binanceusdm(),"BTC/USDT");
+	window.monitor2=new TickMonitor(new ccxt.deribit(),"BTC-PERPETUAL");
+	window.strategy1=new PriceGapStrategy([monitor1,monitor2]);
+
+	RainCypto.appendComponent(app, "#test", strategy1);
+
+	app.mount('#app')
+</script>

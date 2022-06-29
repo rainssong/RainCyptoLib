@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt/1.78.78/ccxt.browser.js"></script>
+	<script type="text/javascript" src="../js/TA.js"></script>
+	<script src="https://unpkg.com/vue@3.2"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container-fluid" id="app">
+		<div id="test">
+
+		</div>
+	</div>
+</body>
+
+<script type="module">
+
+	import TickMonitor from "../src/v1.6/Monitors/TickMonitor.mjs"
+	import FundFeeArbitrageStrategy from "../src/v1.6/Strategys/FundFeeArbitrageStrategy.mjs"
+	import Trader from "../src/v1.6/Strategys/Trader.mjs"
+	import RainCypto from "../src/v1.6/RainCyptoUtil.mjs"
+
+	app = window.app = Vue.createApp({
+	})
+
+	window.strategy1=new FundFeeArbitrageStrategy(new ccxt.binanceusdm(),"BTC/USDT");
+	window.RainCypto=RainCypto;
+
+	RainCypto.appendComponent(app, "#test", strategy1);
+
+	app.mount('#app')
+</script>

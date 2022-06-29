@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt.browser.js"></script>
+	<script src="../js/vue@2.js"></script>
+	<script src="../js/require.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container" id="app">
+
+	</div>
+</body>
+
+<script>
+	require(["../js/TA.js","../src/v1.1/RainCyptoUtil.js","../src/v1.2/Monitor.js","../src/v1.2/CustomMonitor.js"],IntersectionObserver)
+
+	// var js = document.createElement('script');
+	// js.src = '../src/v1.2/CustomMonitor.js';
+	// document.getElementsByTagName('head')[0].appendChild(js);
+
+	function Init()
+	{
+		app = new Vue({
+			el: '#app',
+			data: {
+				exchanges: { deribit: {} },
+				monitors: {}
+			}
+		})
+		a = new CustomMonitor("1>0", "console.log(123)", 1000 * 10);
+	}
+</script>

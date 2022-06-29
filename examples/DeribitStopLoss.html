@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt/1.78.78/ccxt.browser.js"></script>
+	<script type="text/javascript" src="../js/TA.js"></script>
+	<script src="https://unpkg.com/vue@3.2"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container-fluid" id="app">
+		<div id="test">
+
+		</div>
+	</div>
+</body>
+
+<script type="module">
+
+	import DeribitStopLoss from "../src/v1.6/Monitors/DeribitStopLoss.mjs"
+	import RainCypto from "../src/v1.6/RainCyptoUtil.mjs"
+
+	/**
+	 * 步骤：
+	 * 1. Deribit添加新密钥
+	 * 2. 权限：账户read_write 交易read_write，设置IP白名单：添加你自己的IP，名称为止损，确定
+	 * 3. 生成后复制apiKey（短的）和secret（一长串）粘贴到下方
+	 * 4. 可选：下载bark，获取你的推送地址，格式为https://api.day.app/xxxxxxxxxxxxxxxxx/，替换推送URL
+	 * 5. 网页会自动刷新出当前持仓，在StopLoss一栏填写止损位，-1.5代表收益率小于-150%平仓，0.5代表收益率小于50%平仓
+	 */
+	var exchanges = {};
+	exchanges.deribit = new ccxt.deribit();
+	exchanges.deribit.rateLimit = 100;
+	exchanges.deribit.apiKey = "xxxxxxxx";//这里写API
+	exchanges.deribit.secret = "xxxxxxxxxxxxxxxxxxx";//这里写seret
+	RainCypto.pushURL = "";//下载bark，获取你的推送地址，格式为https://api.day.app/xxxxxxxxxxxxxxxxx/，替换推送URL
+
+
+	var monitor = new DeribitStopLoss(exchanges.deribit);
+	monitor.isTestMode = true;
+
+	app = window.app = Vue.createApp({})
+
+	RainCypto.appendComponent(app, "#test", monitor)
+
+	app.mount('#app')
+</script>

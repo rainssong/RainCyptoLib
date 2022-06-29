@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/ccxt.browser.js"></script>
+	<script src="../js/vue@2.js"></script>
+	<script src="../js/require.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<title>RainCyptoLib</title>
+</head>
+
+<body>
+	<div class="container" id="app">
+		<p>
+			status:{{monitors.httpMonitor.isRunning}}
+		</p>
+		<p>
+			url:{{monitors.httpMonitor.url}}
+		</p>
+	</div>
+</body>
+
+<script>
+
+	var baseModules = [
+		"../src/v1.3/RainCyptoUtil.js",
+		"../src/v1.3/Monitors/Monitor.js"]
+
+	var subModules = [
+		"../src/v1.3/Monitors/HttpMonitor.js"];
+
+
+	function loadSubModules()
+	{
+		require(subModules, () => InitConsole());
+	}
+
+	require(baseModules)
+	setTimeout(require, 500, subModules, () => Init());
+
+	function Init()
+	{
+		monitors = {};
+		monitors.httpMonitor = new HttpMonitor("http://www.baidu.com");
+		monitors.httpMonitor.isRunning = true;
+
+		app = new Vue({
+			el: '#app',
+			data: {
+				exchanges: {},
+				monitors: monitors
+			}
+		})
+	}
+</script>
