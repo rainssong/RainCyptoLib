@@ -21,8 +21,9 @@ export default class Strategy extends CyptoElement
     static strategys = [];
 
     static template = CyptoElement.template.replace("<slot></slot>",
-        `
+    `
     <p>
+        <p>单位：{{this.getPriceUnitStr()}}</p>
         <table class="table table-hover table-sm" v-if="traders.length>0" style="overflow-wrap: anywhere">
             <tbody>
                     <tr v-for="trader in traders" :class="{'text-warning':trader.isTrading || trader.tickMonitor.errorCount>0}">
@@ -34,6 +35,7 @@ export default class Strategy extends CyptoElement
                     </tr>
             </tbody>
         </table>
+        <slot></slot>
         <table class="table table-hover table-sm" style="overflow-wrap: anywhere">
             <thead>
                 <tr>
@@ -56,8 +58,7 @@ export default class Strategy extends CyptoElement
             </tbody>
         </table>
     </p>
-    <p>单位：{{this.getPriceUnitStr()}}</p>
-    <slot></slot>
+
     `)
 
     // <table class="table table-hover table-sm" v-if="configs.length>0" style="overflow-wrap: anywhere">
@@ -148,18 +149,22 @@ export default class Strategy extends CyptoElement
         return this.trader.getUnit();
     }
 
-    handleDragStart(e,items){
+    handleDragStart(e, items)
+    {
         this.dragging = items;//开始拖动时，暂时保存当前拖动的数据。
     }
-    handleDragEnd(e,items){
+    handleDragEnd(e, items)
+    {
         this.dragging = null;//拖动结束后，清除数据
     }
-    handleDragOver(e) {
+    handleDragOver(e)
+    {
         e.dataTransfer.dropEffect = 'move';//在dragenter中针对放置目标来设置!
     }
-    handleDragEnter(e,items){
+    handleDragEnter(e, items)
+    {
         e.dataTransfer.effectAllowed = "move";//为需要移动的元素设置dragstart事件
-        if(items == this.dragging) return;
+        if (items == this.dragging) return;
         var newItems = [...this.dataList];//拷贝一份数据进行交换操作。
         var src = newItems.indexOf(this.dragging);//获取数组下标
         var dst = newItems.indexOf(items);
@@ -209,7 +214,7 @@ export default class Strategy extends CyptoElement
         this.handleDragEnd = this.handleDragEnd;
         this.handleDragOver = this.handleDragOver;
         this.handleDragEnter = this.handleDragEnter;
-        this.getPriceUnitStr=this.getPriceUnitStr;
+        this.getPriceUnitStr = this.getPriceUnitStr;
 
         // this.isTrading=this.isTrading;
 

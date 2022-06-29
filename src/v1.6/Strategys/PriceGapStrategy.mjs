@@ -8,12 +8,14 @@ import Trader from "./Trader.mjs";
 export default class PriceGapStrategy extends Strategy
 {
 
+    static template = Strategy.template.replace("<slot></slot>",
+        ` 
+
+    <p>价差率:{{this.priceGapRate.toFixed(4)}}</p>
+    `)
     openPositionValue = 10000
 
     priceGapRate=0;
-
-    openRate=0.055;
-    closeRate=0.005;
 
     constructor(tickMonitors)
     {
@@ -29,7 +31,7 @@ export default class PriceGapStrategy extends Strategy
         this.interval=1000*30;
         this.errorInterval=this.MINUTE*5;
 
-        this.configFields=[{title:"PriceGapRate",func:"this.priceGapRate.toFixed(4)",input:false},{title:"Condition",default:">0.055",input:true},{title:"Position",default:0,input:true}]
+        this.configFields=[{title:"Condition",default:">0.055",input:true},{title:"Position",default:0,input:true}]
         this.configs=[{Condition:">0.055",Position:10000},{Condition:">0.03",Position:4000},{Condition:"<0.002",Position:0}]
     }
 
